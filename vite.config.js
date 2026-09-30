@@ -1,32 +1,33 @@
 import { defineConfig } from 'vite';
 import { globSync } from 'node:fs';
 import { resolve } from 'node:path';
-import partials from './build/vite-plugin-partials.js';
+import { resolveDeployment } from './scripts/lib/deploy.mjs';
 
-const root = resolve(import.meta.dirname, 'src');
+// Pages are generated into build/site/ by scripts/build-pages.mjs; one HTML entry per route.
+const root = resolve(import.meta.dirname, 'build/site');
+const deploy = resolveDeployment();
 
-// One HTML entry per route: src/index.html, src/about/index.html, src/404.html …
 const input = Object.fromEntries(
-  globSync('**/*.html', { cwd: root, exclude: (p) => p.startsWith('partials') }).map((file) => [
-    file.replace(/\/?index\.html$/, '').replace(/\.html$/, '') || 'home',
+  globSync('**/*.html', { cwd: root }).map((file) => [
+    file
+      .replace(/\/?index\.html$/, '')
+      .replace(/\.html$/, '')
+      .replace(/\//g, '-') || 'home',
     resolve(root, file),
   ]),
 );
 
 export default defineConfig({
   root,
+  base: deploy.base,
   publicDir: resolve(import.meta.dirname, 'public'),
   appType: 'mpa',
+  logLevel: 'warn',
   build: {
     outDir: resolve(import.meta.dirname, 'dist'),
     emptyOutDir: true,
+    assetsDir: 'assets/build',
     modulePreload: { polyfill: false },
     rollupOptions: { input },
   },
-  plugins: [
-    partials({
-      partialsDir: resolve(root, 'partials'),
-      dataDir: resolve(root, 'data'),
-    }),
-  ],
 });

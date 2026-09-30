@@ -4,7 +4,16 @@ Dates DD/MM/YYYY.
 
 ## Unreleased
 
-### 30/09/2026
+### 30/09/2026 — site build
+
+- feat: full site — home, services hub and 7 service pages, projects gallery with filter, about, contact with Formspree form, thank-you, privacy notice, 404.
+- feat: GA4 via gtag (loads only when configured), floating WhatsApp button, mobile call/quote bar.
+- seo: unique titles and descriptions, canonical URLs, Open Graph, GeneralContractor/Service/BreadcrumbList JSON-LD, sitemap.xml, robots.txt.
+- chore: two build targets (cPanel, GitHub Pages) as on gas_gas; GitHub Pages preview workflow; `.htaccess` with clean URLs, redirects, 410s, CSP; cPanel release packaging.
+- chore: own internal link checker; Apache `.htaccess` test; Lighthouse over every indexable page.
+- chore: research tooling removed (research stopped on instruction).
+
+### 30/09/2026 — setup
 
 - chore: repository initialised (`MASTER_PROMPT.md`, `.gitignore`, `README.md`); `main` created.
 - chore: Vite 8.3.1 multi-page scaffold, in-repo partials/data plugin, `[CONFIRM]` preview marker and production build gate, `_headers`/robots/sitemap generation, sharp image pipeline, holding page and 404.

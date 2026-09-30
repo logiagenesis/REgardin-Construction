@@ -26,7 +26,14 @@ for (const route of routes) {
 
     test('keyboard: every focusable element is reachable and visibly focused', async ({ page }) => {
       await page.goto(route);
-      const focusable = await page.locator('a[href], button, input, select, textarea, [tabindex="0"]').count();
+      // Only elements a keyboard user can actually reach at this width.
+      const focusable = await page.evaluate(
+        () =>
+          [...document.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')].filter(
+            (el) => el.tabIndex >= 0 && !el.disabled && el.checkVisibility({ visibilityProperty: true }),
+          ).length,
+      );
+      expect(focusable).toBeGreaterThan(0);
       for (let i = 0; i < focusable; i += 1) {
         await page.keyboard.press('Tab');
         const outline = await page.evaluate(() => {

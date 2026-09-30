@@ -12,3 +12,6 @@ lighthouse-reports/
 playwright-report/
 test-results/
 .lighthouseci/
+build/
+release/
+public/assets/img/

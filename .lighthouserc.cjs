@@ -1,15 +1,21 @@
-// Lighthouse CI (mobile, default Lighthouse emulation) against the built dist/.
-// Preview builds are deliberately noindex, so the `is-crawlable` audit is skipped here;
-// crawlability is enforced on the production build by scripts/postbuild.js and
-// re-checked with Lighthouse before launch (Phase 10/11). This is recorded in docs/qa-log.md.
+// Lighthouse CI (mobile, default emulation) over every indexable page of the cPanel build,
+// served by `vite preview`. The thank-you and 404 pages are noindex by design, so they are
+// covered by the Playwright + axe suite instead.
+const { globSync, readFileSync } = require('node:fs');
+
+const urls = globSync('**/index.html', { cwd: 'dist' })
+  .filter((f) => !/<meta name="robots" content="noindex/.test(readFileSync(`dist/${f}`, 'utf8')))
+  .map((f) => `http://localhost:4173/${f.replace(/index\.html$/, '')}`);
+
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: './dist',
+      startServerCommand: 'npm run preview',
+      startServerReadyPattern: 'localhost:4173',
+      url: urls,
       numberOfRuns: 1,
       settings: {
-        skipAudits: ['is-crawlable'],
-        // Containers and CI runners often run as root, where Chrome refuses to start sandboxed.
+        // Containers and CI runners often run as root, where Chrome will not start sandboxed.
         chromeFlags: process.getuid?.() === 0 ? '--no-sandbox --headless=new' : '--headless=new',
       },
     },

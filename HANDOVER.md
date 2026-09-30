@@ -4,44 +4,33 @@ Maintained throughout the build. Last updated: 30/09/2026.
 
 ## Current state
 
-- Phase 0.1: repository initialised. **One branch only: `main`** (Logi-Ink instruction, 30/09/2026).
-- Phase 0.2: Vite scaffold, tooling and CI audit gate in place (CI green). Holding page and 404 only.
-- Phase 0.3: hosting is **cPanel** (Logi-Ink instruction, 30/09/2026). Cloudflare steps dropped. Staging location and deploy method pending.
+- Site built: home, services hub, 7 service pages, projects gallery, about, contact (Formspree form), thank-you, privacy notice, 404.
+- Preview: https://logiagenesis.github.io/REgardin-Construction/ via `.github/workflows/deploy-pages.yml` (standing rule: this workflow stays).
+- Quality gate: `.github/workflows/ci.yml` on every push to `main`.
+- No photographs have been supplied, so every image slot shows a hatched placeholder naming the file it needs.
+- Research (live-site scraping) stopped on instruction, 30/09/2026. No external site was scraped.
 
-- Phase 1: tooling ready (`npm run research:scrape`, `npm run research:assets`); evidence register and audit reconciliation seeded from the brief. **Live scrape blocked**: this build environment's network policy denies `regardinconstruction.co.za`. Fix: environment settings → Network access → add `regardinconstruction.co.za` to allowed domains (or a broader access level).
+## To supply
 
-## Setup
+See `docs/TODO_CONFIRM.md` (regenerated on every build): 3 settings, the missing facts, and the photographs by filename.
 
-See `README.md`. `npm ci && npm run build`.
+## Integrations (single config values in `src/data/site.js`)
+
+| Setting             | Behaviour until supplied                                                        |
+| ------------------- | ------------------------------------------------------------------------------- |
+| `formspreeEndpoint` | Form validates; with JavaScript it shows "not connected yet" instead of posting |
+| `ga4Id`             | gtag.js is not loaded at all                                                    |
+| `whatsappNumber`    | Floating button is visible but points to a placeholder number                   |
+
+GA4 events (only when an ID is set): `click_call`, `click_whatsapp`, `click_email`, and `generate_lead` once on the thank-you page after Formspree accepts the form. No personal data is sent to analytics.
 
 ## Hosting — cPanel / Apache
 
-- `npm run build` writes `dist/.htaccess` and `dist/assets/.htaccess`. Tested locally on Apache 2.4.58 (30/09/2026): security headers, noindex header on preview, 404 status with custom page, no directory listing, gzip, one-year cache on hashed assets, HTTPS 301 on production builds.
-- Upload the contents of `dist/`, including hidden files, to the document root. Do not edit `.htaccess` on the server; change `scripts/postbuild.js` instead.
-- Leave `SITE_ENV` unset (preview/noindex) for staging. Build with `npm run build:production` only for the owner-approved cutover (Phase 11).
-- Needs from Logi-Ink: cPanel staging location, deploy method, PHP version (for the enquiry handler).
+`npm run build:cpanel` writes `dist/.htaccess`: HTTPS and www→bare-domain redirects, clean URLs (`/x/index.html` and `/x.html` → `/x/`), 301s from the old WordPress pages, 410 for the old demo content, security headers including a Content-Security-Policy, gzip, caching (a year for hashed assets), and the custom 404. Checked against Apache 2.4 by `npm run qa:apache` locally and in CI.
 
-## Deviations from MASTER_PROMPT.md
+## Decisions
 
-| Brief                                      | Now                                                                                                                                                                                                                                                                                                          |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Cloudflare Pages, stable `*.pages.dev` URL | cPanel staging location `[CONFIRM: staging URL]`                                                                                                                                                                                                                                                             |
-| Per-commit preview URLs                    | Not available on cPanel. Pushes to `main` are recorded with their SHA in `docs/release-log.md`                                                                                                                                                                                                               |
-| `public/_redirects`, `_headers`            | Generated `.htaccess` (mod_rewrite / mod_headers)                                                                                                                                                                                                                                                            |
-| 410 via Pages Function if needed           | Apache `R=410` rewrite rules                                                                                                                                                                                                                                                                                 |
-| Pages Functions + D1 + R2 (enquiries)      | Proposed: PHP handler on the same cPanel account, MySQL (durable lead storage), uploads stored outside `public_html`, SMTP via a cPanel mailbox or transactional provider `[CONFIRM]`. Spam protection: honeypot, rate limit, plus Turnstile or reCAPTCHA (both work without Cloudflare hosting) `[CONFIRM]` |
-
-## Research data and privacy
-
-- Raw public pages, rendered pages, fetch log and old-site screenshots: `research/live-site/` (committed; public content only).
-- Media originals, media index and the owner contact sheet: `research/_raw/` (git-ignored). The brief asks for `research/contact-sheet.html`; it lives in `research/_raw/` instead because photo use is unconfirmed and the repository is public. It is sent to Logi-Ink directly.
-
-## Integrations
-
-None configured yet. See `.env.example`.
-
-## Open items
-
-- Prior audit files were not supplied (`docs/document-inventory.md`).
-- Owner and Logi-Ink questions: `docs/confirmation-register.md`.
-- Dev-only `npm audit` advisories via `@lhci/cli` (see `docs/qa-log.md`).
+- One font family: Archivo (variable width and weight), self-hosted from `@fontsource-variable/archivo`.
+- Testimonials are quoted word for word from the old site, excerpted with ellipses only.
+- No prices, registrations, response times, areas or experience claims appear; they are `[CONFIRM]` markers until supplied.
+- `npm run package` refuses to build a release zip while any placeholder remains.

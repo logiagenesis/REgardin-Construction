@@ -1,9 +1,10 @@
+# Quality gate on every push to main, against the cPanel build.
 name: Audit gate
 
 on:
   push:
-    branches: ['**']
-  pull_request:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,16 +22,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Build (preview)
-        run: npm run build
-
-      - name: Production build gate (fails on any [CONFIRM] left in dist/)
-        # Expected to fail until every placeholder is resolved; informational before launch.
-        continue-on-error: true
-        run: npm run build:production
-
-      - name: Rebuild preview for the remaining checks
-        run: npm run build
+      - name: Build (cPanel target)
+        run: npm run build:cpanel
 
       - name: Lint and format
         run: npm run lint
@@ -41,8 +34,19 @@ jobs:
       - name: Link check
         run: npm run check:links
 
-      - name: Banned-content grep
+      - name: Banned-content check
         run: npm run check:banned
+
+      - name: .htaccess on Apache
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq apache2
+          sudo a2enmod rewrite headers deflate mime >/dev/null
+          printf 'Listen 8088\n<VirtualHost *:8088>\n  DocumentRoot %s/dist\n  <Directory %s/dist>\n    AllowOverride All\n    Require all granted\n  </Directory>\n</VirtualHost>\n' "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE" | sudo tee /etc/apache2/sites-available/site.conf >/dev/null
+          sudo a2ensite site >/dev/null
+          chmod o+x "$HOME" "$HOME/work" "$HOME/work/${{ github.event.repository.name }}" "$GITHUB_WORKSPACE"
+          sudo systemctl restart apache2
+          npm run qa:apache
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
