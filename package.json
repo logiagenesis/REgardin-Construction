@@ -1,0 +1,40 @@
+{
+  "name": "regardin-construction",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Regardin Construction website — static HTML/CSS/vanilla JS built with Vite.",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "images": "node scripts/images.js",
+    "build": "vite build && node scripts/postbuild.js",
+    "build:production": "SITE_ENV=production npm run build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "format": "prettier --write .",
+    "lint": "prettier --check . && eslint . && stylelint \"src/**/*.css\"",
+    "validate:html": "html-validate \"dist/**/*.html\"",
+    "check:links": "node scripts/check-links.js",
+    "check:banned": "node scripts/banned-content.js",
+    "test:e2e": "playwright test",
+    "lighthouse": "lhci autorun",
+    "audit": "npm run build && npm run lint && npm run validate:html && npm run check:links && npm run check:banned && npm run test:e2e && npm run lighthouse"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@eslint/js": "10.0.1",
+    "@lhci/cli": "0.15.1",
+    "@playwright/test": "1.56.1",
+    "eslint": "10.11.0",
+    "globals": "17.12.0",
+    "html-validate": "11.16.1",
+    "linkinator": "8.1.0",
+    "prettier": "3.9.9",
+    "sharp": "0.35.5",
+    "stylelint": "17.15.0",
+    "stylelint-config-standard": "40.0.0",
+    "vite": "8.3.1"
+  }
+}

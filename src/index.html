@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en-ZA">
+  <head>
+    <!-- @include head -->
+    <title>{{ business.name }} — new website in preparation</title>
+    <meta name="description" content="{{ business.name }}, {{ business.locality }}. A new website is being prepared." />
+  </head>
+  <body>
+    <main id="main" class="holding">
+      <p class="holding__eyebrow">{{ business.locality }}</p>
+      <h1 class="holding__title">{{ business.name }}</h1>
+      <p class="holding__lede">A new website is being prepared. For enquiries in the meantime, call us.</p>
+      <p><a class="button" href="{{ business.phone.href }}">Call&nbsp;{{ business.phone.display }}</a></p>
+    </main>
+    <!-- @include footer -->
+  </body>
+</html>

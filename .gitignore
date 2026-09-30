@@ -11,3 +11,4 @@ research/prior-audits/
 lighthouse-reports/
 playwright-report/
 test-results/
+.lighthouseci/

@@ -1,0 +1,9 @@
+dist/
+node_modules/
+research/
+package-lock.json
+MASTER_PROMPT.md
+lighthouse-reports/
+playwright-report/
+test-results/
+.lighthouseci/
