@@ -32,7 +32,7 @@ In a root container, point Lighthouse at a Chrome binary with `CHROME_PATH=…`.
 src/            one index.html per route, partials/, data/*.json, styles/, scripts/, assets/
 build/          in-repo Vite plugin (includes, {{ data.tokens }}, [CONFIRM] handling)
 scripts/        postbuild (headers, robots, sitemap, build gate), checks, image pipeline
-public/         copied verbatim (favicon, later _redirects)
+public/         copied verbatim (favicon)
 tests/          Playwright specs
 docs/           registers, logs and plans
 ```
@@ -44,11 +44,15 @@ docs/           registers, logs and plans
 - `[CONFIRM: …]` marks a missing fact; `<!-- @unconfirmed --> … <!-- @end-unconfirmed -->` wraps optional claims removed from production.
 - `<!-- @noindex -->` keeps a page out of the index in production too.
 
-## Deploy
+## Deploy (cPanel / Apache)
 
-Cloudflare Pages (pending account access): build command `npm run build`, output `dist`, production branch `main`. Preview builds send `X-Robots-Tag: noindex`.
+The site is hosted on cPanel, not Cloudflare. `npm run build` produces a static `dist/` including a generated `.htaccess` (security headers, `X-Robots-Tag: noindex` on preview builds, custom 404, gzip, caching; HTTPS redirect, redirects and 410s on production builds). Upload the **contents** of `dist/` (including the hidden `.htaccess` files) to the document root. Deployment method and staging location are pending — see `HANDOVER.md`.
+
+## Branching
+
+One branch only: `main`. Every finished cycle is audited, committed and pushed to `main`.
 
 ## URLs
 
 - Repository: https://github.com/logiagenesis/REgardin-Construction
-- Stable preview: not yet connected (see `HANDOVER.md`).
+- Staging preview: not yet set up (cPanel staging location pending, see `HANDOVER.md`).

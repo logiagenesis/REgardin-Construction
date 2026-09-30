@@ -52,7 +52,7 @@ Questions for one conversation with Regard Bothma. Nothing below is published as
 
 ## 9. Access (invitations only, never passwords)
 
-- [ ] Cloudflare (Pages, D1, R2, Turnstile).
+- [ ] cPanel access for staging and, at launch, production hosting.
 - [ ] Domain DNS holder.
 - [ ] WordPress hosting (backup before cutover).
 - [ ] GA4 / GTM / Site Kit (live site loads `GT-5DCV555P`), Search Console, Google Ads, Google Business Profile, Meta.
@@ -66,5 +66,9 @@ Questions for one conversation with Regard Bothma. Nothing below is published as
 
 ## Repository / hosting (Logi-Ink)
 
-- [ ] Set GitHub default branch to `main` (Settings → Branches). `main` was created on 30/09/2026; the first-pushed branch was `claude/new-session-0ea69p`.
-- [ ] Hosting: Cloudflare Pages (default) — account access needed.
+- [x] One GitHub branch only: `main` (30/09/2026).
+- [x] Hosting: cPanel, not Cloudflare (30/09/2026).
+- [ ] Staging location on cPanel (e.g. a subdomain) and whether it is password-protected.
+- [ ] Deploy method: cPanel Git Version Control with `.cpanel.yml`, GitHub Actions over FTP/SFTP, or manual upload of `dist/`.
+- [ ] PHP version and MySQL availability on the account (enquiry backend).
+- [ ] Web server: Apache or LiteSpeed (both read `.htaccess`).
