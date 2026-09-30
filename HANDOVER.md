@@ -8,6 +8,8 @@ Maintained throughout the build. Last updated: 30/09/2026.
 - Phase 0.2: Vite scaffold, tooling and CI audit gate in place (CI green). Holding page and 404 only.
 - Phase 0.3: hosting is **cPanel** (Logi-Ink instruction, 30/09/2026). Cloudflare steps dropped. Staging location and deploy method pending.
 
+- Phase 1: tooling ready (`npm run research:scrape`, `npm run research:assets`); evidence register and audit reconciliation seeded from the brief. **Live scrape blocked**: this build environment's network policy denies `regardinconstruction.co.za`. Fix: environment settings → Network access → add `regardinconstruction.co.za` to allowed domains (or a broader access level).
+
 ## Setup
 
 See `README.md`. `npm ci && npm run build`.
@@ -28,6 +30,11 @@ See `README.md`. `npm ci && npm run build`.
 | `public/_redirects`, `_headers`            | Generated `.htaccess` (mod_rewrite / mod_headers)                                                                                                                                                                                                                                                            |
 | 410 via Pages Function if needed           | Apache `R=410` rewrite rules                                                                                                                                                                                                                                                                                 |
 | Pages Functions + D1 + R2 (enquiries)      | Proposed: PHP handler on the same cPanel account, MySQL (durable lead storage), uploads stored outside `public_html`, SMTP via a cPanel mailbox or transactional provider `[CONFIRM]`. Spam protection: honeypot, rate limit, plus Turnstile or reCAPTCHA (both work without Cloudflare hosting) `[CONFIRM]` |
+
+## Research data and privacy
+
+- Raw public pages, rendered pages, fetch log and old-site screenshots: `research/live-site/` (committed; public content only).
+- Media originals, media index and the owner contact sheet: `research/_raw/` (git-ignored). The brief asks for `research/contact-sheet.html`; it lives in `research/_raw/` instead because photo use is unconfirmed and the repository is public. It is sent to Logi-Ink directly.
 
 ## Integrations
 

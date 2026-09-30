@@ -10,4 +10,6 @@ Dates DD/MM/YYYY.
 - chore: Vite 8.3.1 multi-page scaffold, in-repo partials/data plugin, `[CONFIRM]` preview marker and production build gate, `_headers`/robots/sitemap generation, sharp image pipeline, holding page and 404.
 - chore: audit tooling (Prettier, ESLint, Stylelint, html-validate, link check, banned-content grep, Playwright + axe, Lighthouse CI) and GitHub Actions audit gate.
 - chore: hosting switched to cPanel — `_headers` replaced by generated `.htaccess` (headers, noindex on preview, 404, gzip, caching, HTTPS on production); Cloudflare dropped; single `main` branch.
+- feat: Phase 1 research tooling — read-only live-site scraper (sitemaps, feeds, REST API, crawl, rendered pass, screenshots, media) and asset-manifest/contact-sheet builder.
+- docs: evidence register and audit reconciliation seeded from the brief; live re-check pending network access.
 - docs: document inventory, QA log, confirmation register, release log, handover.

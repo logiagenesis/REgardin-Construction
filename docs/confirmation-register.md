@@ -72,3 +72,5 @@ Questions for one conversation with Regard Bothma. Nothing below is published as
 - [ ] Deploy method: cPanel Git Version Control with `.cpanel.yml`, GitHub Actions over FTP/SFTP, or manual upload of `dist/`.
 - [ ] PHP version and MySQL availability on the account (enquiry backend).
 - [ ] Web server: Apache or LiteSpeed (both read `.htaccess`).
+- [ ] Allow `regardinconstruction.co.za` in the Claude Code environment's network settings (needed for the Phase 1 scrape).
+- [ ] Default branch: GitHub API still reported `claude/new-session-0ea69p` as default on 30/09/2026 after the change; deletion of that branch is refused until it is not the default.

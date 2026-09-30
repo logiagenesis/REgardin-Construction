@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Regardin Construction website — static HTML/CSS/vanilla JS built with Vite.",
+  "description": "Regardin Construction website \u2014 static HTML/CSS/vanilla JS built with Vite.",
   "engines": {
     "node": ">=22.22.0"
   },
@@ -20,7 +20,9 @@
     "check:banned": "node scripts/banned-content.js",
     "test:e2e": "playwright test",
     "lighthouse": "lhci autorun",
-    "audit": "npm run build && npm run lint && npm run validate:html && npm run check:links && npm run check:banned && npm run test:e2e && npm run lighthouse"
+    "audit": "npm run build && npm run lint && npm run validate:html && npm run check:links && npm run check:banned && npm run test:e2e && npm run lighthouse",
+    "research:scrape": "node scripts/research/scrape-live.js",
+    "research:assets": "node scripts/research/build-asset-manifest.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
